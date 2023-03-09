@@ -1,5 +1,5 @@
 
-<h1>You can run this project :</h1>
+You can run this project :
 
 database name: busSystem
 insert the database;
