@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style/normalize.css">
+    <link rel="stylesheet" href="assets/style/indexHeader.css">
+    <link rel="stylesheet" href="assets/style/main.css">
+    <title>WebPos System</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div>
+            <div><img src="assets/img/blackIon/bus.png" alt="menuImg" width="40px" style="cursor: pointer"></div>
+            <ol>
+                <li><a href="" data-bs-toggle="modal" data-bs-target="#loginModal" class="fw-semibold fs-3">Login</a></li>
+                <li><a href="" data-bs-toggle="modal" data-bs-target="#signUpModal" class="fw-semibold fs-3" id="btnSignUp">Sign up</a></li>
+            </ol>
+            <h2 class="topNaviHeaderText fw-semibold">Welcome, Europe Bus Booking System</h2>
+        </div>
+    </nav>
+</header>
+<main class="vh-100">
+    <section class="container-fluid pt-5">
+            <div class="row">
+                <div class="col-12">
+            <h5 class="text-center fw-semibold mb-3 ">Welcome Bus System Login and manage much more</h5>
+                    <button type="button" class="btn btn-danger btn-sm position-relative start-50 translate-middle-x" data-bs-toggle="modal" data-bs-target="#loginModel">Administer Login</button>
+                </div>
+            </div>
+        <section class="m-5">
+            <div id="carouselExampleInterval" class="carousel slide mt-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="5000">
+                        <img src="assets/img/bus3.jpg" class="d-block w-100" height="600px">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="assets/img/bus2.jpg" class="d-block w-100" height="600px">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="assets/img/bus.jpeg" class="d-block w-100" height="600px">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+    </section>
+    <section>
+
+        <!-- Modal Login-->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="loginModalLabel">Enter Email and Password</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                      <div class="modal-body">
+
+                        <form id="loginForm">
+
+                            <div class="mb-3">
+                                <input type="email" class="form-control fw-bold fs-5" id="txtLoginEmail" aria-describedby="emailHelp" placeholder="Email" name="email">
+                                <p class="error-email"></p>
+                            <div class="mb-3">
+                                <input type="password" class="form-control fw-bold fs-5" id="txtLoginPwd" placeholder="Password" name="pwd">
+                                <p class="error-pwd"></p>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary" id="btnLogin">Login</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm " data-bs-dismiss="modal">close</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!--  Login Model End-->
+    </section>
+    <section>
+        <!-- Modal SignUp-->
+        <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModelLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-4 fw-bold" id="signUpModelLabel">SignUp</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" >
+                        <form action="customer" id="formCustomerSignup">
+                            <section class="row">
+                                <aside class="col-6">
+                                    <div class="mb-3">
+                                        <input type="text" name="nic" class="form-control fs-5 fw-bold inputWidth" id="txtNic"  placeholder="NIC-Number">
+                                        <p class="ms-2 text-danger"  id="invalidNic">invalid Nic</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" name="name" class="form-control fs-5 fw-bold inputWidth" id="txtCusName"  placeholder="Name">
+                                        <p class="ms-2 text-danger"  id="invalidName">invalid Name</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" name="surname" class="form-control fs-5 fw-bold inputWidth" id="txtCusSurname"  placeholder="Surname">
+                                        <p class="ms-2 text-danger"  id="invalidSurname">invalid Surname</p>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input fs-5 fw-bold" type="radio" name="gender" id="male" checked value="male">
+                                        <label class="form-check-label fs-5 fw-bold" for="male">
+                                            <b> Male</b>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input fs-5 fw-bold" type="radio" name="gender" id="female" value="female">
+                                        <label class="form-check-label fs-5 fw-bold" for="female">
+                                            <b> Female</b>
+                                        </label>
+                                    </div>
+                                </aside>
+                                <aside class="col-6 align-self-end">
+                                    <div class="mb-3">
+                                        <input type="text" name="tel" class="form-control fs-5 fw-bold inputWidth" id="txtCusTel"  placeholder="Tel-Number">
+                                        <p class="ms-2 text-danger"  id="invalidTel">invalid Tel-Number</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" name="email" class="form-control fs-5 fw-bold inputWidth" id="txtCusEmail"  placeholder="Email">
+                                        <p class="ms-2 text-danger"  id="invalidEmail">invalid Email</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" name="pwd" class="form-control fs-5 fw-bold inputWidth" id="txtCusPwd"  placeholder="Password">
+                                        <p class="ms-2 text-danger"  id="invalidPwd">invalid Password</p>
+                                    </div>
+                                    <div class="mb-3 mt-1">
+                                        <label for="txtDob" class="d-block fs-5 fw-bold">Birthday</label>
+                                        <input type="date"  id="txtDob" name="dob" class="fs-5 fw-bold">
+                                        <p class="ms-2 text-danger"  id="invalidDob">Please Select your Birthday</p>
+                                    </div>
+                                </aside>
+                            </section>
+                            <button type="button" class="btn btn-primary  mt-2" id="btnCustomerSignUpSave">Save</button>
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm " data-bs-dismiss="modal">close</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!--  Suing Up Model End-->
+
+    </section>
+</main>
+<script src="assets/jQuery/jquery-3.6.3.min.js"></script>
+<script src="assets/bootstrap-5.3.0-alpha1-dist/js/bootstrap.min.js"></script>
+<script src="assets/js/controller.js"></script>
+<script src="assets/js/indexController.js"></script>
+<script>
+</script>
+
+</body>
+</html>

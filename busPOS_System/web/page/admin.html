@@ -1,0 +1,643 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../assets/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/style/normalize.css">
+    <link rel="stylesheet" href="../assets/jQuery/jquery-ui.min.css">
+    <link rel="stylesheet" href="../assets/style/admin.css">
+    <link rel="stylesheet" href="../assets/style/main.css">
+    <title>Admin</title>
+    <script>
+        /*var customerID= new URL(location.href).searchParams.get("custID");*/
+        var adminName=sessionStorage.getItem("adminName");
+        if(adminName==null){
+            window.location = '../index.html';
+        }
+    </script>
+    <style>
+
+        .inputWidth{
+            width:300px;
+            height:30px;
+            font-size: 1.25rem;
+        }
+        tbody{
+            background-color: white;
+        }
+        .inputWidthDisable{
+            width: 250px;
+            height:30px;
+            font-size: 1.25rem;
+            display:inline-block;
+        }
+        .seatGridSection{
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-rows: repeat(4,1fr);
+            grid-template-columns: repeat(10,1fr);
+        }
+        .seatDiv{
+            border: #195454 solid 2px;
+            border-radius: 20%;
+            font-weight: bold;
+            padding-left: 10px;
+        }
+        .seatGridSection>div:hover{
+            background-color: cyan;
+            cursor: pointer;
+        }
+        .addedDiv:after {
+            content:none
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div>
+            <div><img src="../assets/img/blackIon/menuOutline.png" alt="menuImg" width="40px" id="imgMenuExpand" style="cursor: pointer"></div>
+            <a href="../index.html">Log out</a>
+                <h2 class="topNaviHeaderText">Welcome, Europe Bus Booking System</h2>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <aside>
+            <section class="aside-1">
+                <div>
+                    <div><img src="../assets/img/whiteIcon/collapse.png" alt="collapse-Icon" width="30px" style="cursor: pointer" id="imgMenuCollapse"></div>
+                    <div class="profile-1"><img src="../assets/img/profile.png" alt="profileImg" width="100px"></div>
+                </div>
+                <div>
+                    <div>
+                    <h4>Hello</h4>
+                    <h5 id="userName">Admin</h5>
+
+                    </div>
+                </div>
+            </section>
+            <hr>
+            <section class="aside-2">
+
+            <div id="sideDashboard"><div></div><img src="../assets/img/blackIon/dashboard%20(1).png" alt="" width="20px"><h4>Dashboard</h4></div>
+            <div id="sideBuse"><div></div><img src="../assets/img/blackIon/bus.png" alt="" width="25px"><h4>Buses</h4></div>
+            <div id="sideRoute"><div></div><img src="../assets/img/blackIon/route.png" alt="" width="25px"><h4>Route</h4></div>
+            <div id="sideCustomer"><div></div><img src="../assets/img/blackIon/customer.png" alt="" width="25px"><h4>Customer</h4></div>
+            <div id="sideBooking"><div></div><img src="../assets/img/blackIon/booking.png" alt="" width="25px"><h4>Booking</h4></div>
+            <div id="sideAdmin"><div></div><img src="../assets/img/blackIon/administrator.png" alt="" width="25px"><h4>New Admin</h4></div>
+            </section>
+
+
+        </aside>
+        <main> <!--BodyMain-->
+
+            <h2 style="text-align: center" id="navStatus">Bus Status</h2>
+            <main>
+                <section style="display: none" id="navBuses">
+                    <!-- BUSES VIEW--> <main class="container mt-5 pe-5 ps-5 ">
+                    <section class="row">
+                        <div class="col-10">
+                            <form id="busForm">
+                                <div class="mb-3">
+                                    <label for="txtBusID" class="fw-bold fs-5">Bus ID</label>
+                                    <input type="text" name="busID" class="form-control inputWidth" id="txtBusID" aria-describedby="busHelp" placeholder="Bus ID" style="width:300px" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="fw-bold fs-5">Bus Number</label>
+                                    <input type="text" name="busNumber" class="form-control inputWidth" id="txtBusNumber" aria-describedby="busHelp" placeholder="Bus Number" style="width:300px">
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="fw-bold fs-5">Total Seat</label>
+                                    <input type="text" name="busSeat" class="form-control inputWidth" id="txtBusTotalSeat" aria-describedby="busHelp" placeholder="Total Seat" style="width:300px">
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" id="btnBusSave">Save Bus</button>
+                            </form>
+                        </div>
+                        <table class="table table-hover  mt-4 table-bordered border-dark">
+                            <thead>
+                            <tr class="bg-info-subtle fs-5 fw-bold">
+                                <th>ID</th>
+                                <th>Bus Number</th>
+                                <th>Total Seat</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-group-divider" id="tblBus">
+
+                            </tbody>
+                        </table>
+
+                    </section>
+
+
+                </main> <!-- BUSES VIEW-->
+                </section>
+                <section style="display: none" id="navRoute">
+                    <!--ROUTE VIEW--><main  class="container-fluid ">
+                    <section class="row">
+                        <section class="col-12">
+                            <form id="formRouteSave">
+                                <section class="row">
+
+                                    <aside class="col-8">
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Route ID</label>
+                                            <input type="text" class="form-control inputWidth" id="txtRouteID" name="routeID" placeholder="Route ID" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Via City</label>
+                                            <textarea type="text" class="form-control inputWidth" id="txtCity" name="city" placeholder="Cities"></textarea >
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Bus ID</label> <br>
+                                            <input type="text" name="busNumber" style="width: 250px;display: inline-block" class="form-control inputWidth" id="txtBusIDCity"  placeholder="Bus ID" disabled>
+                                            <h2 class="btn btn-outline-primary mb-2 " style="height: 10px;font-size: 15px;display: inline;font-weight: bold" id="btnBusNumberCity" data-bs-toggle="modal" data-bs-target="#modalBusNumber">+</h2>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Cost</label>
+                                            <input type="text" class="form-control inputWidth" id="txtCost" name="cost" placeholder="Cost" required>
+                                        </div>
+
+                                    </aside>
+                                    <aside class="col-4">
+                                        <div class="mb-3">
+                                            <label for="dateDeparture" class="fs-5 fw-bold">Departure Date :</label>
+                                            <input type="date"  id="dateDeparture" name="departureDate" class="form-control inputWidth" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="timeDeparture" class="fs-5 fw-bold">Departure Time :</label>
+                                            <input type="time"  id="timeDeparture" name="departureTime"  class="form-control inputWidth" required>
+                                        </div>
+
+                                    </aside>
+                                </section>
+                                <button type="button" class="btn btn-primary" id="btnRouteSave">Save Route</button>
+                            </form>
+
+
+                        </section>
+                        <section class="row">
+                            <table class="col-12 table table-hover mt-1 table-sm table-bordered border-dark ms-2">
+                                <thead>
+                                <tr class="bg-primary-subtle fs-5 fw-bold">
+                                    <th>ID</th>
+                                    <th>Via Cities</th>
+                                    <th>Bus</th>
+                                    <th>Departure <br>Date</th>
+                                    <th>Departure <br>Time</th>
+                                    <th>Cost</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                </thead>
+                                <tbody class="table-group-divider" id="tblRouteBody">
+
+                                </tbody>
+                            </table>
+                        </section>
+                    </section>
+
+                </main> <!--ROUTE VIEW-->
+                </section>
+                <section style="display: none" id="navCustomer">
+                    <!--CUSTOMER VIEW--> <main class="container-fluid  ps-3  pe-3 ">
+                    <section class="row">
+                        <div class="col-12">
+                            <form id="formCustomer">
+                                <section class="row">
+                                    <aside class="col-6">
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Customer ID</label>
+                                            <input type="text" class="form-control inputWidth" id="txtCustID" name="custID" placeholder="Customer ID" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Nic</label>
+                                            <input type="text" class="form-control inputWidth" id="txtNic" name="nic" placeholder="NIC-Number">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">First Name</label>
+                                            <input type="text" class="form-control inputWidth" id="txtCusName" name="name" placeholder="Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Surname</label>
+                                            <input type="text" class="form-control inputWidth" id="txtCusSurname" name="surname" placeholder="Surname">
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input fw-bold fs-5" type="radio" name="gender" id="male" value="male" checked>
+                                            <label class="form-check-label" for="male">
+                                                Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input fw-bold fs-5" type="radio" name="gender" id="female" value="female">
+                                            <label class="form-check-label" for="female">
+                                                Female
+                                            </label>
+                                        </div>
+                                    </aside>
+                                    <aside class="col-6 align-self-end">
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Tel-Number</label>
+                                            <input type="text" class="form-control inputWidth" id="txtCusTel" name="tel" placeholder="Tel-Number">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Email</label>
+                                            <input type="email" class="form-control inputWidth" id="txtCusEmail"  name="email" placeholder="Email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Password</label>
+                                            <input type="password" class="form-control inputWidth" id="txtCusPwd" name="pwd" placeholder="Password" required>
+                                        </div>
+                                        <div class="mb-3 mt-1">
+                                            <label for="dob" class="d-block fw-bold fs-5" >Birthday</label>
+                                            <input type="date" class="fw-bold fs-5" id="dob" name="dob">
+                                        </div>
+                                    </aside>
+                                </section>
+                                <button type="button" class="btn btn-primary  mt-2" id="btnSaveCustomer">Save Customer</button>
+                            </form>
+                        </div>
+                        <table class="table table-hover mt-5 table-sm table-bordered border-dark">
+                            <thead>
+                            <tr class="bg-info-subtle fw-bold fs-5">
+                                <th>ID</th>
+                                <th>NIC</th>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Birthday</th>
+                                <th>Tel</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            </thead>
+                            <tbody class="table-group-divider" id="tblCustomer">
+
+                            </tbody>
+                        </table>
+
+                    </section>
+
+                </main>   <!--CUSTOMER VIEW-->
+                </section>
+                <section>
+                    <!--BOOKING VIEW--><main style="display: none" id="navBooking" class="container-fluid mt-2 ps-3 pe-4 ">
+                    <section class="row">
+                        <div class="col-12">
+
+                            <form id="formBooking">
+                                <section class="row">
+                                    <aside class="col-6">
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Booking ID</label> <br>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtBookingID" name="bookingID"  placeholder="Booking ID" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Customer ID</label> <br>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtBookingCustID" name="custID"  placeholder="Customer ID" disabled>
+                                            <h2 class="btn btn-outline-primary mb-2 " style="height: 10px;font-size: 15px;display: inline;font-weight: bold" id="btnCusBookingID" data-bs-toggle="modal" data-bs-target="#searchCustomerModal">+</h2>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Route ID</label> <br>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtBookingRoute" name="routeID" placeholder="Route" disabled>
+                                            <h2 class="btn btn-outline-primary mb-2 " style="height: 10px;font-size: 15px;display: inline;font-weight: bold" id="btnRouteBooking" data-bs-toggle="modal" data-bs-target="#searchRouteModel">+</h2>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Cost</label> <br>
+                                            <input type="number" class="form-control inputWidthDisable" id="txtBookingAmount" name="cost" placeholder="Amount" disabled>
+
+                                        </div>
+                                        <div class="mb-3 mt-1">
+                                            <label for="BookedDate" class="d-block fs-5 fw-bold"><b> Booked Time & Date</b></label>
+                                            <input type="date" class="fw-bold fs-5" id="bookedDate" name="bookingDate">
+                                            <input type="time" class="fw-bold fs-5" id="bookedTime" name="bookingTime">
+                                        </div>
+                                    </aside>
+                                    <aside class="col-6">
+
+
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Name</label> <br>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtBookingCusName"  placeholder="Name" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Bus ID</label> <br>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtBookingBus" name="busID" placeholder="Bus" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="fw-bold fs-5">Seat</label> <br>
+                                            <input type="number" class="form-control inputWidthDisable" id="txtBookingSeat" name="busSeat" placeholder="Seat" disabled>
+                                            <h2 class="btn btn-outline-primary mb-2 " style="height: 10px;font-size: 15px;display: inline;font-weight: bold" id="btnSeatBooking" data-bs-toggle="modal" data-bs-target="#searchSeatModel">+</h2>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="d-block fw-bold fs-5">Departure Time & Date</label>
+                                            <input type="text" class="form-control inputWidthDisable" id="txtDepartureDate" name="departureDate" placeholder="Departure Date" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control inputWidthDisable" id="txtDepartureTime" name="departureTime" placeholder="Departure Time" disabled>
+                                        </div>
+
+                                    </aside>
+                                </section>
+                                <button type="button" class="btn btn-primary  mt-2" id="btnBookingSave">Save Booking</button>
+                            </form>
+                        </div>
+                        <table class="table table-hover mt-5 table-sm table-bordered border-dark">
+                            <thead>
+                            <tr class="bg-info-subtle fw-bold fs-5">
+                                <th>Booking <br>ID</th>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Bus</th>
+                                <th>Route</th>
+                                <th>Seat</th>
+                                <th>Amount</th>
+                                <th>Departure</th>
+                                <th>Booked</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            </thead>
+                            <tbody class="table-group-divider" id="tblBooking">
+
+                            </tbody>
+                        </table>
+                    </section>
+
+                </main>  <!--BOOKING VIEW END-->
+                </section>
+                <section  style="display: none" id="navUser">
+                    <!--NEW ADMIN VIEW--><main class="container-fluid mt-2 pe-4 ps-4 "><section class="row">
+                    <div class="col-12">
+                        <form id="formUser">
+                            <section class="row">
+                                <aside class="col-6">
+
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">User ID</label>
+                                        <input type="text" class="form-control inputWidth" id="txtUserID"  name="userID" placeholder="User ID" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">First Name</label>
+                                        <input type="text" class="form-control inputWidth" id="txtUserFirstName"  name="ftName" placeholder="First Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">Last Name</label>
+                                        <input type="text" class="form-control inputWidth" id="txtUserLastName" name="ltName" placeholder="Last Name">
+                                    </div>
+                                </aside>
+                                <aside class="col-6 align-self-end">
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">Email</label>
+                                        <input type="email" class="form-control inputWidth" id="txtUserEmail" name="email" placeholder="Email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">Password</label>
+                                        <input type="password" class="form-control inputWidth" id="txtUserPwd" name="pwd"  placeholder="Password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  class="d-block fw-bold fs-5">Re-Enter Password</label>
+                                        <input type="password" class="form-control inputWidth" id="txtUserPwd2" name="pwd2"  placeholder="Re-Enter Password">
+                                    </div>
+                                </aside>
+                            </section>
+                            <button type="button" class="btn btn-primary btn-sm mt-2" id="btnSaveAdmin">Save Admin</button>
+                        </form>
+                    </div>
+                    <table class="table table-hover mt-2 table-sm table-bordered border-dark">
+                        <thead>
+                        <tr class="bg-info-subtle fw-bold fs-5">
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+
+                        </thead>
+                        <tbody class="table-group-divider" id="tblAdmin">
+                        <tr>
+                            <td>E001</td>
+                            <td>Dilshan</td>
+                            <td>Maduranga</td>
+                            <td>dilshan@gmail.com</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm">edit</button>
+                                <button type="button" class="btn btn-danger btn-sm">remove</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </section></main>  <!--NEW ADMIN VIEW-->
+                </section>
+            </main>
+        </main>
+    </main>
+
+        <footer>
+            <mian> <!--ALL models-->
+                <section><!-- DELETE ALERT ALL NAVIGATION-->
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure delete this..?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                               <!-- <div class="modal-body">
+                                </div>-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btnRemoveModel" data-bs-dismiss="modal">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section><!-- BUS DELETE ALERT-->
+                    <!-- Modal -->
+                    <div class="modal fade" id="routeDeleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="routeModalLabel">Are you sure delete this..?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="routeBusRemoveModel" data-bs-dismiss="modal">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Modal Bus Number-->
+                <div class="modal fade" id="modalBusNumber" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Find Bus</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover mt-4 table-bordered border-dark">
+                                    <thead>
+                                    <tr class="bg-info-subtle fs-5 fw-bold">
+                                        <th>ID</th>
+                                        <th>Bus Number</th>
+                                        <th>Total Seat</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider" id="tblBodyBusModal">
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btnAddBusIDModel" disabled>Add Bus ID</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- MODAL BUS END-->
+
+                <!-- Search Customer Modal-->
+                <div class="modal fade" id="searchCustomerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Search Customer</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="searchCustomerModalBody">
+                                <table class="table table-hover mt-5 table-sm table-bordered border-dark">
+                                    <thead>
+                                    <tr class="bg-primary-subtle fs-5 fw-bold">
+                                        <th>#ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Tel</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider" id="tblCustomerModel">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Search Customer Modal-->
+                <!-- Search Seat Modal-->
+                <div class="modal fade" id="searchSeatModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Select Seat Number</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="seatBookingModalBody">
+                                <section class="seatGridSection">
+
+                                </section>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSeatAddModel">Add Seat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search Route Modal-->
+                <div class="modal fade" id="searchRouteModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Search Route</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="col-12 table table-hover mt-1 table-sm table-bordered border-dark ms-2">
+                                    <thead>
+                                    <tr class="bg-primary-subtle fs-5 fw-bold">
+                                        <th>ID</th>
+                                        <th>Via Cities</th>
+                                        <th>Bus</th>
+                                        <th>Departure <br>Date</th>
+                                        <th>Departure <br>Time</th>
+                                        <th>Cost</th>
+                                        <th>Action</th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody class="table-group-divider" id="tblModalBookingRouteBody">
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Search Route Modal END-->
+
+
+
+
+
+            </mian>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header" id="toastHeader">
+                        <img src="../assets/img/active.png" class="rounded me-2" alt="...">
+                        <strong class="me-auto fw-bold fs-5" id="toastHeaderText">Massage</strong>
+                        <small class="fw-semibold text-muted fs-5 ">just now</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body fw-bold fs-5" id="toastBody">
+                      ...
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+
+
+
+    <script src="../assets/jQuery/jquery-3.6.3.min.js"></script>
+    <script src="../assets/jQuery/jquery-ui.min.js"></script>
+    <script src="../assets/bootstrap-5.3.0-alpha1-dist/js/bootstrap.min.js"></script>
+    <script>
+        $("#userName").text(adminName);
+
+
+    </script>
+    <script src="../assets/js/indexController.js"></script>
+    <script src="../assets/js/controller.js"></script>
+    <script src="../assets/js/admin/naviMenu.js"></script>
+    <script src="../assets/js/admin/busController.js"></script>
+    <script src="../assets/js/admin/routeController.js"></script>
+    <script src="../assets/js/admin/customerController.js"></script>
+    <script src="../assets/js/admin/bookingController.js"></script>
+    <script src="../assets/js/admin/newUserController.js"></script>
+</body>
+</html>
